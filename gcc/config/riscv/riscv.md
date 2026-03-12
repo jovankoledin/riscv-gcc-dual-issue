@@ -140,6 +140,7 @@
 ;; shift	integer shift instructions
 ;; slt		set less than instructions
 ;; imul		integer multiply 
+;; imulh    integer multiply (high half) 
 ;; idiv		integer divide
 ;; move		integer register move (addi rd, rs1, 0)
 ;; fmove	floating point register move
@@ -155,7 +156,7 @@
 ;; ghost	an instruction that produces no real code
 (define_attr "type"
   "unknown,branch,jump,call,load,fpload,store,fpstore,
-   mtc,mfc,const,arith,logical,shift,slt,imul,idiv,move,fmove,fadd,fmul,
+   mtc,mfc,const,arith,logical,shift,slt,imul,imulh,idiv,move,fmove,fadd,fmul,
    fmadd,fdiv,fcmp,fcvt,fsqrt,multi,auipc,sfb_alu,nop,ghost"
   (cond [(eq_attr "got" "load") (const_string "load")
 
@@ -661,7 +662,7 @@
 	    (const_int 64))))]
   "TARGET_MUL && TARGET_64BIT"
   "mulh<u>\t%0,%1,%2"
-  [(set_attr "type" "imul")
+  [(set_attr "type" "imulh")
    (set_attr "mode" "DI")])
 
 (define_expand "usmulditi3"
@@ -692,7 +693,7 @@
 	    (const_int 64))))]
   "TARGET_MUL && TARGET_64BIT"
   "mulhsu\t%0,%2,%1"
-  [(set_attr "type" "imul")
+  [(set_attr "type" "imulh")
    (set_attr "mode" "DI")])
 
 (define_expand "<u>mulsidi3"
@@ -722,7 +723,7 @@
 	    (const_int 32))))]
   "TARGET_MUL && !TARGET_64BIT"
   "mulh<u>\t%0,%1,%2"
-  [(set_attr "type" "imul")
+  [(set_attr "type" "imulh")
    (set_attr "mode" "SI")])
 
 
@@ -753,7 +754,7 @@
 	    (const_int 32))))]
   "TARGET_MUL && !TARGET_64BIT"
   "mulhsu\t%0,%2,%1"
-  [(set_attr "type" "imul")
+  [(set_attr "type" "imulh")
    (set_attr "mode" "SI")])
 
 ;;
